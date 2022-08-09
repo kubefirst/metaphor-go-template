@@ -32,9 +32,9 @@ func main() {
 
 	appRouter := r.PathPrefix("/app").Subrouter()
 	appRouter.HandleFunc("/", appHandler.Info).Methods(http.MethodGet)
-	appRouter.HandleFunc("/performance", appHandler.Performance).Methods(http.MethodGet)
+	appRouter.HandleFunc("/performance", appHandler.Performance).Methods(http.MethodPost)
 	appRouter.HandleFunc("/healthz", appHandler.Healthz).Methods(http.MethodGet)
-	appRouter.HandleFunc("/kill", appHandler.Kill).Methods(http.MethodGet)
+	appRouter.HandleFunc("/kill", appHandler.Kill).Methods(http.MethodPost)
 
 	r.HandleFunc("/vault", vaultHandler.Vault).Methods(http.MethodGet)
 	r.HandleFunc("/kubernetes", kubernetesHandler.KubernetesConfigMapData).Methods(http.MethodGet)
