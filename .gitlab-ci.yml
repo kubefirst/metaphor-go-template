@@ -55,8 +55,8 @@ development:
 staging:
   image: "${BUILDER_IMAGE}"
   stage: staging
-   only:
-     - main
+  only:
+    - main
   script:
     - echo "commit sha $CI_COMMIT_SHA"
     - |
