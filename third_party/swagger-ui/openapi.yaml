@@ -50,17 +50,6 @@ paths:
         # (todo ->check if we have this condition on our infra)
         '503':
           description: Service is unavailable
-  /app/healthz:
-    get:
-      summary: Health endpoint checks app availability.
-      tags:
-        - App
-      responses:
-        '200':
-          description: It will return 200/ok when app is up and running.
-        # (todo ->check if we have this condition on our infra)
-        '503':
-          description: Service is unavailable
   /app/kill:
     get:
       summary: Force kill the process that is running this API.
@@ -69,6 +58,15 @@ paths:
       tags:
         - App
       responses:
+        # (todo ->check if we have this condition on our infra)
+        '503':
+          description: Service is unavailable
+  /healthz:
+    get:
+      summary: Health endpoint checks app availability.
+      responses:
+        '200':
+          description: It will return 200/ok when app is up and running.
         # (todo ->check if we have this condition on our infra)
         '503':
           description: Service is unavailable
