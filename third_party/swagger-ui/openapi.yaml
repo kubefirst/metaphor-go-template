@@ -39,7 +39,7 @@ paths:
         '503':
           description: Service is unavailable
   /app/performance:
-    get:
+    post:
       summary: >
         Simulate request speed by returning random response time on this endpoint.
       tags:
@@ -51,7 +51,7 @@ paths:
         '503':
           description: Service is unavailable
   /app/kill:
-    get:
+    post:
       summary: Force kill the process that is running this API.
       description: >
         A Go panic() is called on this endpoint, and the endpoint won't be able to recover from it, returning http error.

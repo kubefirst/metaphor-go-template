@@ -31,6 +31,10 @@ func NewApp(config *configs.Config, httpClient pkg.HTTPDoer) *AppHandler {
 }
 
 func (handler AppHandler) Info(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == http.MethodOptions {
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 
@@ -56,6 +60,10 @@ func (handler AppHandler) Info(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler AppHandler) Performance(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == http.MethodOptions {
+		return
+	}
 	sleepTime := rand.Intn(10)
 	log.Debug().Msgf("I'm sleeping for %d seconds", sleepTime)
 	time.Sleep(time.Duration(sleepTime) * time.Second)
@@ -63,11 +71,19 @@ func (handler AppHandler) Performance(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler AppHandler) Healthz(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == http.MethodOptions {
+		return
+	}
 	log.Debug().Msg("I'm health!")
 	w.WriteHeader(http.StatusOK)
 }
 
 func (handler AppHandler) Kill(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == http.MethodOptions {
+		return
+	}
 	log.Warn().Str("endpoint", "kill").Msg("Kill endpoint was called, and the application is being force terminated...")
 	os.Exit(1)
 }

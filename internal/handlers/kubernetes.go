@@ -26,6 +26,10 @@ func NewKubernetesHandler(config *configs.Config, httpClient pkg.HTTPDoer) Kuber
 }
 
 func (handler KubernetesHandler) KubernetesConfigMapData(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == http.MethodOptions {
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 
