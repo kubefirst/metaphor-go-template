@@ -17,6 +17,7 @@ func main() {
 
 	// mux router
 	r := mux.NewRouter().StrictSlash(true)
+	r.Use(mux.CORSMethodMiddleware(r))
 
 	// server swagger-ui
 	sh := http.StripPrefix("/swagger-ui/", http.FileServer(http.Dir("../../third_party/swagger-ui/")))
@@ -30,14 +31,16 @@ func main() {
 	vaultHandler := handlers.NewVault(config, httpClient)
 	kubernetesHandler := handlers.NewKubernetesHandler(config, httpClient)
 
-	appRouter := r.PathPrefix("/app").Subrouter()
-	appRouter.HandleFunc("/", appHandler.Info).Methods(http.MethodGet)
-	appRouter.HandleFunc("/performance", appHandler.Performance).Methods(http.MethodGet)
-	appRouter.HandleFunc("/healthz", appHandler.Healthz).Methods(http.MethodGet)
-	appRouter.HandleFunc("/kill", appHandler.Kill).Methods(http.MethodGet)
+	r.HandleFunc("/healthz", appHandler.Healthz).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/vault", vaultHandler.Vault).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/kubernetes", kubernetesHandler.KubernetesConfigMapData).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/app", appHandler.Info).Methods(http.MethodGet, http.MethodOptions)
 
-	r.HandleFunc("/vault", vaultHandler.Vault).Methods(http.MethodGet)
-	r.HandleFunc("/kubernetes", kubernetesHandler.KubernetesConfigMapData).Methods(http.MethodGet)
+	appRouter := r.PathPrefix("/app").Subrouter()
+	appRouter.Use(mux.CORSMethodMiddleware(appRouter))
+	appRouter.HandleFunc("/", appHandler.Info).Methods(http.MethodGet, http.MethodOptions)
+	appRouter.HandleFunc("/performance", appHandler.Performance).Methods(http.MethodPost, http.MethodOptions)
+	appRouter.HandleFunc("/kill", appHandler.Kill).Methods(http.MethodPost, http.MethodOptions)
 
 	port := ":3000"
 	log.Info().Msgf("API listening at %q port", port[1:])

@@ -5,6 +5,6 @@ WORKDIR /opt/app
 
 COPY . .
 
-RUN cd cmd/http && go build -o /opt/app/metaphor-api
+RUN cd cmd/http && go build -o /opt/app/metaphor-go-api
 
-CMD ["./metaphor-api"]
+CMD ["./metaphor-go-api"]

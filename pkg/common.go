@@ -7,6 +7,6 @@ type HTTPDoer interface {
 }
 
 const (
-	AppName     = "metaphor"
+	AppName     = "metaphor-go"
 	CompanyName = "Kubefirst"
 )
