@@ -34,13 +34,10 @@ func main() {
 	r.HandleFunc("/healthz", appHandler.Healthz).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/vault", vaultHandler.Vault).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/kubernetes", kubernetesHandler.KubernetesConfigMapData).Methods(http.MethodGet, http.MethodOptions)
-	r.HandleFunc("/app", appHandler.Info).Methods(http.MethodGet, http.MethodOptions)
 
-	appRouter := r.PathPrefix("/app").Subrouter()
-	appRouter.Use(mux.CORSMethodMiddleware(appRouter))
-	appRouter.HandleFunc("/", appHandler.Info).Methods(http.MethodGet, http.MethodOptions)
-	appRouter.HandleFunc("/performance", appHandler.Performance).Methods(http.MethodPost, http.MethodOptions)
-	appRouter.HandleFunc("/kill", appHandler.Kill).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc("/app", appHandler.Info).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/app/performance", appHandler.Performance).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc("/app/kill", appHandler.Kill).Methods(http.MethodPost, http.MethodOptions)
 
 	port := ":3000"
 	log.Info().Msgf("API listening at %q port", port[1:])
