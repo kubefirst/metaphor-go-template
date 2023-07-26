@@ -1,3 +1,5 @@
+> ⚠️ The kubefirst exploration applications metaphor has been merged into one version, and moved inside the [gitops-template repository](https://github.com/kubefirst/gitops-template/tree/main/metaphor).
+
 # Metaphor GO API
 
 `metaphor-go` is an example application which serves as a demonstration space for how your applications hook into your 
